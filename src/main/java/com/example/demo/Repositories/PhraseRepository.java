@@ -10,5 +10,5 @@ import java.util.List;
 public interface PhraseRepository extends JpaRepository<Phrase, Long> {
     List<Phrase> findByOriginalTextContainingIgnoreCase(String search);
     List<Phrase> findByCategoryIdAndOriginalTextContainingIgnoreCase(Long categoryId, String search);
-    List<Phrase> findByCategoryId(Long categoryId);  // Add this method
+    List<Phrase> findByCategoryId(Long categoryId);  
 }
