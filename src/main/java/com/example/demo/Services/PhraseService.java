@@ -61,7 +61,6 @@ public class PhraseService {
         if (phrase.getTranslations() != null) {
             for (Translation translation : phrase.getTranslations()) {
                 translation.setPhrase(savedPhrase);
-                // Ensure language exists
                 Language language = languageService.findByCode(translation.getLanguage().getCode());
                 translation.setLanguage(language);
                 translationRepository.save(translation);
