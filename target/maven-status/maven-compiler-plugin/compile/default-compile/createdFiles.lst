@@ -1,0 +1,16 @@
+com\example\demo\DemoApplication.class
+com\example\demo\Controller\LanguageController.class
+com\example\demo\Models\Phrase.class
+com\example\demo\Repositories\LanguageRepository.class
+com\example\demo\Services\LanguageService.class
+com\example\demo\Repositories\PhraseRepository.class
+com\example\demo\Services\PhraseService.class
+com\example\demo\Controller\CategoryController.class
+com\example\demo\ResourceNotFoundException.class
+com\example\demo\Repositories\CategoryRepository.class
+com\example\demo\Models\Language.class
+com\example\demo\Services\CategoryService.class
+com\example\demo\Controller\PhraseController.class
+com\example\demo\Models\Translation.class
+com\example\demo\Repositories\TranslationRepository.class
+com\example\demo\Models\Category.class

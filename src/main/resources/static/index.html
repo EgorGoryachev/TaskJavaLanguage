@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Туристический разговорник</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .phrase-card {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .phrase-card:hover {
+            background-color: #e9ecef;
+        }
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Туристический разговорник</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Поиск фраз...">
+                <button class="btn btn-primary" onclick="searchPhrases()">Найти</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="categoriesContainer">
+        <!-- Категории будут загружены через JS -->
+    </div>
+    <!-- Добавить после строки с поиском (перед <div class="row" id="categoriesContainer">) -->
+    <div class="row mb-3">
+        <div class="col-md-6 mx-auto">
+            <label for="languageSelect" class="form-label">Язык перевода:</label>
+            <select id="languageSelect" class="form-select">
+                <option value="en">English</option>
+                <option value="es">Español (Spanish)</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-4" id="phrasesContainer" style="display: none;">
+        <div class="col-12">
+            <h2 id="currentCategory"></h2>
+            <button class="btn btn-sm btn-outline-secondary mb-3" onclick="backToCategories()">
+                ← Назад к категориям
+            </button>
+            <div class="list-group" id="phrasesList">
+                <!-- Фразы будут загружены через JS -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="phraseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Добавить фразу</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="phraseForm">
+                    <input type="hidden" id="phraseId">
+                    <div class="mb-3">
+                        <label for="originalText" class="form-label">Фраза (русский)</label>
+                        <input type="text" class="form-control" id="originalText" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="translationEn" class="form-label">Перевод (английский)</label>
+                        <input type="text" class="form-control" id="translationEn" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="translationEs" class="form-label">Перевод (испанский)</label>
+                        <input type="text" class="form-control" id="translationEs" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categorySelect" class="form-label">Категория</label>
+                        <select class="form-select" id="categorySelect" required></select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" onclick="savePhrase()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Кнопки управления добавить в phrasesContainer после кнопки "Назад" -->
+<div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success me-2" onclick="showAddPhraseModal()">
+        + Добавить фразу
+    </button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
