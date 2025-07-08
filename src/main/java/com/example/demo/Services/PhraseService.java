@@ -52,16 +52,12 @@ public class PhraseService {
     }
 
     public Phrase save(Phrase phrase) {
-        // Ensure originalLanguage is a managed entity
         if (phrase.getOriginalLanguage() != null && phrase.getOriginalLanguage().getId() == null) {
             Language language = languageService.findByCode(phrase.getOriginalLanguage().getCode());
             phrase.setOriginalLanguage(language);
         }
-
-        // First save the phrase without translations to generate ID
         Phrase savedPhrase = phraseRepository.save(phrase);
 
-        // Then process translations
         if (phrase.getTranslations() != null) {
             for (Translation translation : phrase.getTranslations()) {
                 translation.setPhrase(savedPhrase);
@@ -85,7 +81,6 @@ public class PhraseService {
 
     public void delete(Long id) {
         Phrase phrase = findById(id);
-        // Удаляем связанные переводы сначала
         translationRepository.deleteByPhraseId(id);
         phraseRepository.delete(phrase);
     }
@@ -98,10 +93,7 @@ public class PhraseService {
         Phrase phrase = findById(phraseId);
         translation.setPhrase(phrase);
 
-        // Проверяем язык
         languageService.findById(translation.getLanguage().getId());
-
-        // Проверяем, нет ли уже перевода для этого языка
         Optional<Translation> existingTranslation = translationRepository
                 .findByPhraseIdAndLanguageId(phraseId, translation.getLanguage().getId());
 
