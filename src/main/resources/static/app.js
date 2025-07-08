@@ -1,8 +1,6 @@
-// Базовый URL вашего API
+
 const API_URL = 'http://localhost:8080/api';
-// Добавим переменную для хранения текущего языка
 let currentLanguage = 'en';
-// Загрузка категорий при старте
 document.addEventListener('DOMContentLoaded', loadCategories);
 let currentCategoryId = null;
 let currentPhrase = null;
@@ -46,7 +44,6 @@ function getCategoryIcon(categoryName) {
     return icons[categoryName] || '💬';
 }
 
-// Обновим функцию загрузки фраз
 async function loadPhrases(categoryId, categoryName) {
     try {
         currentCategoryId = categoryId;
@@ -91,7 +88,6 @@ async function loadPhrases(categoryId, categoryName) {
 }
 
 
-// Обновим функцию получения перевода
 function getTranslation(phrase, languageCode) {
     if (!phrase.translations) return 'Нет перевода';
 
@@ -116,10 +112,9 @@ function backToCategories() {
 }
 
 document.getElementById('languageSelect').addEventListener('change', function() {
-    // Если открыты фразы, перезагружаем их с новым языком
     if (document.getElementById('phrasesContainer').style.display === 'block') {
         const currentCategory = document.getElementById('currentCategory').textContent;
-        const categoryId = currentCategoryId; // Нужно сохранять categoryId при загрузке
+        const categoryId = currentCategoryId;
         if (currentCategory && categoryId) {
             loadPhrases(categoryId, currentCategory);
         }
@@ -168,23 +163,18 @@ async function searchPhrases() {
 }
 async function loadPhrases(categoryId, categoryName) {
     try {
-        // Сохраняем текущий ID категории для возможной перезагрузки при смене языка
         currentCategoryId = categoryId;
 
-        // Получаем выбранный язык из селекта
         currentLanguage = document.getElementById('languageSelect').value;
 
-        // Загружаем фразы для выбранной категории
         const response = await fetch(`${API_URL}/phrases?categoryId=${categoryId}`);
         if (!response.ok) throw new Error('Ошибка загрузки фраз');
         const phrases = await response.json();
 
-        // Обновляем UI
         document.getElementById('currentCategory').textContent = categoryName;
         document.getElementById('categoriesContainer').style.display = 'none';
         document.getElementById('phrasesContainer').style.display = 'block';
 
-        // Очищаем и заполняем список фраз
         const phrasesList = document.getElementById('phrasesList');
         phrasesList.innerHTML = '';
 
@@ -230,7 +220,6 @@ async function showAddPhraseModal() {
         document.getElementById('phraseForm').reset();
         document.getElementById('phraseId').value = '';
 
-        // Загрузка категорий в селект
         const response = await fetch(`${API_URL}/categories`);
         if (!response.ok) throw new Error('Ошибка загрузки категорий');
         const categories = await response.json();
@@ -240,7 +229,6 @@ async function showAddPhraseModal() {
             `<option value="${c.id}">${c.name}</option>`
         ).join('');
 
-        // Показываем модальное окно
         const modalElement = document.getElementById('phraseModal');
         const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
         modal.show();
@@ -255,16 +243,13 @@ async function showEditPhraseModal(phraseId) {
     currentPhrase = phraseId;
     document.getElementById('modalTitle').textContent = 'Редактировать фразу';
 
-    // Загрузка данных фразы
     const response = await fetch(`${API_URL}/phrases/${phraseId}`);
     const phrase = await response.json();
 
-    // Заполнение формы
     document.getElementById('phraseId').value = phrase.id;
     document.getElementById('originalText').value = phrase.originalText;
     document.getElementById('categorySelect').value = phrase.category.id;
 
-    // Заполнение переводов
     const enTranslation = phrase.translations.find(t => t.language.code === 'en');
     const esTranslation = phrase.translations.find(t => t.language.code === 'es');
     document.getElementById('translationEn').value = enTranslation?.translatedText || '';
@@ -279,7 +264,7 @@ async function savePhrase() {
 
     const phraseData = {
         originalText: document.getElementById('originalText').value,
-        originalLanguage: { code: 'ru' }, // Russian language code
+        originalLanguage: { code: 'ru' },
         category: { id: document.getElementById('categorySelect').value },
         translations: [
             {
