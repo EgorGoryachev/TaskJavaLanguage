@@ -12,6 +12,6 @@ public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code; // en, ru, fr, etc.
+    private String code; 
     private String name;
 }
