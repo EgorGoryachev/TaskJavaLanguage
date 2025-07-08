@@ -47,19 +47,16 @@ public class PhraseController {
     public ResponseEntity<Phrase> addPhrase(@RequestBody Phrase phrase) {
         phrase.setId(null);
 
-        // Validate original language
         if (phrase.getOriginalLanguage() == null || phrase.getOriginalLanguage().getCode() == null) {
             throw new IllegalArgumentException("Original language code is required");
         }
 
-        // Validate translation languages
         if (phrase.getTranslations() != null) {
             for (Translation t : phrase.getTranslations()) {
                 t.setId(null);
                 if (t.getLanguage() == null || t.getLanguage().getCode() == null) {
                     throw new IllegalArgumentException("Language code is required for translations");
                 }
-                // Verify language exists
                 try {
                     languageService.findByCode(t.getLanguage().getCode());
                 } catch (ResourceNotFoundException e) {
